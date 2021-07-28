@@ -45,7 +45,7 @@ export class App extends React.Component {
 
     render() {
         const { showRandomChar, error, notFound } = this.state;
-        const toggleRandomChar = showRandomChar ? null : <RandomChar />;
+        const toggleRandomChar = showRandomChar ? null : <RandomChar interval={2500}/>;
 
 
         if (error) {
