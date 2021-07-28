@@ -17,11 +17,18 @@ export default class ItemDetails extends Component {
 
     state = {
         item: null,
-        loading: true
+        loading: true,
+        error: false
     }
 
     componentDidMount() {
         this.updateChar();
+    }
+
+    componentDidCatch() {
+        this.setState({
+            error: true
+        })
     }
 
     componentDidUpdate(prevProps) {
@@ -41,16 +48,27 @@ export default class ItemDetails extends Component {
             .then((item) => {
                 this.setState({ item, loading: false })
             })
+            .catch((err) => {
+                this.setState({
+                    error: true
+                })
+            })
     }
 
     render() {
 
-        const { item, loading } = this.state;
+        const { item, loading, error } = this.state;
         const { children } = this.props;
 
-        if (!item) {
-            return <span className='select-error'>Please selected a character</span>
+        if (error) {
+            return  <div>Данный элемент не найден. Возможно он не существует.</div>
         }
+
+        if (!item) {
+            return <span className='select-error'>Please select an item from the list.</span>
+        }
+
+       
 
         const spinner = loading ? <Spinner /> : null;
         const content = !loading ? <CharItem item={item} children={children} /> : null;

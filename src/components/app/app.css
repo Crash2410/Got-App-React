@@ -1,3 +1,11 @@
 .delete-random-char{
     margin-bottom: 40px;
 }
+
+.app{
+    overflow-x: hidden;
+    background: url('./got.jpeg') center center no-repeat;
+    background-size: cover;
+    font-size: 16px;
+    height: 100%;
+}

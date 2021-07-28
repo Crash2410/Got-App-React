@@ -1,25 +1,16 @@
 import React from 'react';
 import ItemList from '../../itemList';
-import ItemDetails from '../../itemDetails';
 import ErrorMessage from '../../error/error';
 import GotService from '../../../services/gotService';
-import RowBlock from '../../rowBlock';
-import { Field } from '../../itemDetails';
+import { withRouter } from 'react-router-dom';
 import './booksPage.css';
 
 
-export default class BooksPage extends React.Component {
+class BooksPage extends React.Component {
     gotService = new GotService();
 
     state = {
-        selectedItem: null,
         error: false
-    }
-
-    onItemSelected = (id) => {
-        this.setState({
-            selectedItem: id
-        })
     }
 
     componentDidCatch() {
@@ -28,39 +19,24 @@ export default class BooksPage extends React.Component {
         })
     }
 
-
     render() {
-        const { selectedItem, error } = this.state;
-
+        const { error } = this.state;
 
         if (error) {
             return <ErrorMessage />
         }
 
-        const itemList = (
+        return (
             <ItemList
-                onItemSelected={this.onItemSelected}
+                onItemSelected={(itemId) => {
+                    this.props.history.push(itemId);
+                }}
                 getData={this.gotService.getAllBooks}
                 renderItem={({ name, authors }) => {
                     return `${name} (${authors})`
                 }} />
-        );
-
-        const charDetails = (
-            <ItemDetails
-                itemId={selectedItem}
-                getData={this.gotService.getBooks}
-            >
-                <Field field='name' label='Name' />
-                <Field field='numberOfPages' label='Number Of Page' />
-                <Field field='publisher' label='Publisher' />
-                <Field field='released' label='Released' />
-            </ItemDetails>
-
-        );
-
-        return (
-            <RowBlock left={itemList} right={charDetails} />
         )
     }
 }
+
+export default withRouter(BooksPage);

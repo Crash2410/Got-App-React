@@ -10,11 +10,11 @@ export default class ItemList extends Component {
 
     componentDidMount() {
         const { getData } = this.props;
-
         getData()
             .then((itemList) => {
                 this.setState({ itemList, loading: false });
             });
+
     }
 
     renderItems = (arr) => {

@@ -1,0 +1,15 @@
+.not-found{
+    overflow-x: hidden;
+    background: url('https://7kingdoms.ru/wp-content/uploads/2019/03/game_of_thrones_dragons_ep5_25.jpg') center center no-repeat;
+    background-size: cover;
+    font-size: 16px;
+    min-height: 100vh;
+}
+
+.not-found p {
+    font-size: 50px;
+    color: gray;
+    font-weight: 500;
+    margin-top: 200px;
+    margin-left: 100px;
+}
