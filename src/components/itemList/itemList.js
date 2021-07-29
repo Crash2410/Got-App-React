@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Spinner from '../spinner/spinner';
 import './itemList.css';
 import withData from '../hoc-helpers/withData';
-class ItemList extends Component {
 
-    renderItems = (arr) => {
-        const { onItemSelected } = this.props;
+const ItemList = ({onItemSelected, data, loading, renderItem}) => {
+
+    const renderItems = (arr) => {
         return arr.map((item) => {
             const { id } = item;
-            const { renderItem } = this.props;
             return (
                 <li
                     key={id}
@@ -21,18 +21,23 @@ class ItemList extends Component {
         })
     }
 
-    render() {
-        const { data, loading } = this.props
-        const spinner = loading ? <Spinner /> : null;
-        const items = this.renderItems(data);
+    const spinner = loading ? <Spinner /> : null;
+    const items = renderItems(data);
 
-        return (
-            <ul className="item-list list-group">
-                {spinner}
-                {items}
-            </ul>
-        );
-    }
+    return (
+        <ul className="item-list list-group">
+            {spinner}
+            {items}
+        </ul>
+    )
+}
+
+ItemList.defaultProps = {
+    onItemSelected: () => { }
+}
+
+ItemList.propTypes = {
+    onItemSelected: PropTypes.func
 }
 
 export default withData(ItemList);
