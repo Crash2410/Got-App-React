@@ -1,34 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Spinner from '../spinner/spinner';
 import './itemList.css';
-export default class ItemList extends Component {
-
-    state = {
-        itemList: null,
-        loading: true
-    }
-
-    static defaultProps = {
-        onItemSelected: () => { }
-    }
-
-    static propTypes ={
-        onItemSelected: PropTypes.func
-    }
-
-    componentDidMount() {
-        const { getData } = this.props;
-        getData()
-            .then((itemList) => {
-                this.setState({ itemList, loading: false });
-            });
-
-    }
+import withData from '../hoc-helpers/withData';
+class ItemList extends Component {
 
     renderItems = (arr) => {
         const { onItemSelected } = this.props;
-        return arr.map((item, i) => {
+        return arr.map((item) => {
             const { id } = item;
             const { renderItem } = this.props;
             return (
@@ -44,13 +22,9 @@ export default class ItemList extends Component {
     }
 
     render() {
-
-        const { itemList, loading } = this.state;
-        if (!itemList) {
-            return <Spinner />
-        }
+        const { data, loading } = this.props
         const spinner = loading ? <Spinner /> : null;
-        const items = this.renderItems(itemList);
+        const items = this.renderItems(data);
 
         return (
             <ul className="item-list list-group">
@@ -61,3 +35,4 @@ export default class ItemList extends Component {
     }
 }
 
+export default withData(ItemList);
